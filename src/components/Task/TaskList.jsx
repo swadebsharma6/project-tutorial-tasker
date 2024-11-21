@@ -1,6 +1,6 @@
 import { FaStar } from "react-icons/fa6";
-const TaskList = ({ tusks }) => {
-//   console.log(tusks);
+const TaskList = ({ tasks, onEdit, onDelete, onFav }) => {
+  //   console.log(tasks);
   return (
     <div className="overflow-auto">
       <table className="table-fixed overflow-auto xl:w-full">
@@ -30,21 +30,27 @@ const TaskList = ({ tusks }) => {
           </tr>
         </thead>
         <tbody>
-          {tusks.map((tusk) => (
+          {tasks.map((task) => (
             <tr
-              key={tusk.id}
+              key={task.id}
               className="border-b border-[#2E3443] [&>td]:align-baseline [&>td]:px-4 [&>td]:py-2"
             >
               <td>
-                {tusk.isFavorite ? <FaStar className="text-yellow-500"/> : <FaStar className="text-gray-400" />}
+               <button onClick={() =>onFav(task.id)}>
+               {task.isFavorite ? (
+                  <FaStar className="text-yellow-500" />
+                ) : (
+                  <FaStar className="text-gray-400" />
+                )}
+               </button>
               </td>
-              <td>{tusk.title}</td>
+              <td>{task.title}</td>
               <td>
-                <div>{tusk.description}</div>
+                <div>{task.description}</div>
               </td>
               <td>
                 <ul className="flex justify-center gap-1.5 flex-wrap">
-                  {tusk.tags.map((tag, idx) => (
+                  {task.tags.map((tag, idx) => (
                     <li key={idx}>
                       <span className="inline-block h-5 whitespace-nowrap rounded-[45px] bg-[#00D991A1] px-2.5 text-sm capitalize text-[#F4F5F6]">
                         {tag}
@@ -53,11 +59,14 @@ const TaskList = ({ tusks }) => {
                   ))}
                 </ul>
               </td>
-              <td className="text-center">{tusk.priority}</td>
+              <td className="text-center">{task.priority}</td>
               <td>
                 <div className="flex items-center justify-center space-x-3">
-                  <button className="text-red-500">Delete</button>
-                  <button className="text-blue-500">Edit</button>
+                  <button onClick={()=> onDelete(task.id)} 
+                  className="text-red-500">
+                    Delete
+                    </button>
+                  <button onClick={()=>onEdit(task)} className="text-blue-500">Edit</button>
                 </div>
               </td>
             </tr>
